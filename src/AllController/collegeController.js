@@ -67,10 +67,10 @@ const createCollege = async function(req,res){
 
 const  getCollegeDetails= async function (req, res) {
     try {
-        const collegeName = req.query.name
+        const collegeName = req.query.collegeName
         if (!collegeName) return res.status(400).send({ status: false, message: 'College name is required to access data' })
       
-        const newCollege = await collegeModel.findOne({ name: collegeName }, { name: 1, fullName: 1, logoLink: 1 });
+        const newCollege = await collegeModel.findOne({ name: collegeName,isDeleted: false  }, { name: 1, fullName: 1, logoLink: 1 });
             if (!newCollege) return res.status(404).send({ status: false, message: `College does not exit` });
 
         const interns = await internModel.find({ collegeId: newCollege._id, isDeleted: false }, { name: 1, email: 1, mobile: 1 });
